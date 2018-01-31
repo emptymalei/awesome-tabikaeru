@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <!-- Basic meta elements -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <!--   Dublin Core metadata for Zotero -->
+  <meta name="DC.title" content="GitHub Notebook JS" />
+  <meta name="DC.creator" content="" />
+  <meta name="DC.date" content="2016" />
+  <meta name="DC.rights" content="" />
+  <meta name="DC.source" content="GitHub Notebook JS" />
+
+
+  <title>
+      旅行青蛙明信片收集
+  </title>
+
+  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/bulma/css/bulma.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+
+
+  </head>
+
+  <body>
+
+
+     <nav class="navbar" role="navigation" aria-label="main navigation">
+       <div class="navbar-brand">
+         <a class="navbar-item" href="https://bulma.io">
+           <!-- <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28"> -->
+           旅行青蛙收集
+         </a>
+
+         <a class="navbar-item"  href="https://github.com/lmfamily/awesome-tabikaeru">GitHub Source Code</a>
+
+
+       </div>
+     </nav>
+
+
+     <article class="message">
+       <div class="message-header center">
+         <p>说明</p>
+         <!-- <button class="delete" aria-label="delete"></button> -->
+       </div>
+       <div class="message-body">
+         这只是自己玩游戏过程中呱蛙儿寄回来的明信片，数量非常有限。如果你也想分享你的明信片，在<a href="https://github.com/lmfamily/awesome-tabikaeru" target="_blank">这里</a> fork, pull request 就好了。所有的明信片放在了 "postcards" 文件夹下面，明明方式是 "tabikaeru-[scene]-[friends].png"，其中如果是独自一人的话， "[friends]" 就省略了。例如独自在树枝上就命名为 "tabikaeru-branch.png"，如果是跟蝴蝶在树枝上就命名为 "tabikaeru-branch-butterfly.png".
+       </div>
+     </article>
+
+
+<div id="app">
+   <!-- <input v-model="githubrepo"></input> -->
+   <!-- <button v-on:click="retrieveTree">Retrieve Path</button> -->
+
+   <div id="gallery">
+
+      <div v-for="postcard in postcards" class="pcard">
+            <figure>
+               <img v-bind:src=postcard alt="">
+            </figure>
+      </div>
+
+
+
+      <!-- <ul>
+         <li v-for="postcard in postcards">
+            <img v-bind:src=postcard>
+         </li>
+      </ul> -->
+
+
+
+   </div>
+
+
+
+</div>
+
+
+
+
+
+<script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+<!-- v img for gallery -->
+<script src="https://cdn.jsdelivr.net/npm/v-img@latest/dist/v-img.min.js"></script>
+
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+   githubrepo: 'lmfamily/awesome-tabikaeru',
+   githubTreeData: [],
+   postcards: []
+},
+methods: {
+ retrieveTree: function() {
+    var app = this
+    // app.githubTreeData = ["Retrieving..."]
+    // axios.get('https://api.github.com/repos/' + this.githubrepo + '/git/trees/master?recursive=1')
+    axios.get('https://api.github.com/repos/' + this.githubrepo + '/git/trees/master?recursive=1')
+          .then(function (response) {
+            app.githubTreeData = response.data.tree
+            for (var index=0; index < app.githubTreeData.length; index++) {
+               if ( app.githubTreeData[index].path.slice(0,10) == 'postcards/' ) {
+                  app.postcards.push('https://raw.githubusercontent.com/'+ app.githubrepo + '/master/' + app.githubTreeData[index].path)
+                  }
+                  // app.githubTreeData[index].fullurl='https://raw.githubusercontent.com/'+ app.githubrepo + '/master/' + app.githubTreeData[index].path //.$set('fullurl',"a")
+
+            }
+            // for (var index=0;index < postcards.length;index++){
+            //
+            // }
+          })
+          .catch(function (error) {
+            app.githubTreeData = "Fail"
+          })
+       }
+   }, //END Methods
+   beforeMount(){
+    this.retrieveTree()
+   }
+})
+</script>
+
+
+
+
+
+
+
+  </body>
+</html>
