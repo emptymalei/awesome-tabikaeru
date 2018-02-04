@@ -1,3 +1,7 @@
+[v-cloak] {
+  display: none;
+}
+
 #gallery {
    display: -webkit-box;
    display: -moz-box;
