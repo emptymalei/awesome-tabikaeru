@@ -79,7 +79,7 @@
                               <span class="tag is-light"><i class="fab fa-github"></i></span>
                               </a>
                               <a v-bind:href=hashtag+postcard.slice(78)><span class="tag is-light"><i class="fas fa-hashtag"></i></span></a>
-                              <span class="tag is-white" v-cloak>{{ postcard.slice(78,-4) }}</span>
+                              <span class="tag is-white" v-cloak style="max-width: 100px;display:inline;overflow:hidden;">{{ postcard.slice(88,-4) }}</span>
                            </div>
                         </div>
 
@@ -105,6 +105,16 @@
    </div>
 
 
+   <footer class="footer" style="margin-top:2em;">
+     <div class="container">
+       <div class="content has-text-centered">
+         <p>
+           <strong>旅行青蛙明信片收集</strong> by <a href="http://leima.hanlu.io">LMFamily</a>.
+         </p>
+         <p>使用 GitHub API + vue.js + Bulma</p>
+       </div>
+     </div>
+   </footer>
 
 
 
